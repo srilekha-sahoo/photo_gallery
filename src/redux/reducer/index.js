@@ -1,5 +1,4 @@
-import handlePicture from "./handlePicture";
+import { createStore, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
 
-const rootReducers = combineReducers();
-
-export default rootReducers;
+const store = createStore(rootReducer, applyMiddleware(thunk));

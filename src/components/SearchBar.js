@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { MDBCol } from "mdbreact";
 
 const SearchBar = (props) => {
 
   return (
-    <MDBCol md="12">
+    <div>
       <form className="form-inline mb-4">
         <input 
           className="form-control form-control-sm ml-3 w-75" 
@@ -16,7 +15,7 @@ const SearchBar = (props) => {
           onChange={props.handleInputChange}
         />
       </form>
-    </MDBCol>
+    </div>
   );
 }
 
