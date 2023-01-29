@@ -1,11 +1,18 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux'
 import './CardStyles.css';
 import SearchBar from './components/SearchBar';
+import { fetchedData, filteredData } from './redux/action';
 
 const PicturesData = () => {
 
-    const [data, setData] = useState([]);
-    const [filter, setFilter] = useState(data);
+    const data = useSelector((state) => state.handleData.pictures)
+    const filters = useSelector((state) => state.handleData.filteredPictures)
+
+    const dispatch = useDispatch()
+
+    // const [data, setData] = useState([]);
+    // const [filter, setFilter] = useState(data);
     const [searchValue, setSearchValue] = useState("");
     let componentMounted = true;
 
@@ -13,14 +20,14 @@ const PicturesData = () => {
     const fetchData = () => {
         return fetch("https://raw.githubusercontent.com/Lokenath/MyRepo/master/Test/package.json")
             .then((response) => response.json())
-            .then((result) => setData(result.pics))
+            .then((result) => dispatch(fetchedData(result.pics)))
     }
 
     useEffect(() => {
         const getPictures = async () => { 
             const response = fetch("https://raw.githubusercontent.com/Lokenath/MyRepo/master/Test/package.json")
             .then((response) => response.json())
-            .then((result) => setFilter(result.pics))
+            .then((result) => dispatch(filteredData(result.pics)))
         }
         getPictures();
         fetchData();
@@ -52,14 +59,14 @@ const PicturesData = () => {
     const filterPictures = (cat) => {
 
         const keyword = cat;
-
+        
         if (keyword !== '') {
             const results = data.filter((x) => {
                 return x.category.toLowerCase().startsWith(cat.toLowerCase());
             });
-            setFilter(results);
+            dispatch(filteredData(results));
         } else {
-            setFilter(data);
+            dispatch(filteredData(data));
         }
     
     }
@@ -74,8 +81,8 @@ const PicturesData = () => {
                         searchValue={searchValue} 
                     />
                 </div>
-                {filter && filter.length > 0 ? (
-                    filter.map((picture) => {
+                {filters && filters.length > 0 ? (
+                    filters.map((picture) => {
                         return (
                             <>
                                 <div className="col-md-3 mb-4">
