@@ -13,3 +13,10 @@ export const filteredData = (picture) => {
         payload : picture
     }
 }
+
+export const addLikes = (likes) => {
+    return{
+        type : "LIKEADD",
+        payload : likes
+    }
+}
